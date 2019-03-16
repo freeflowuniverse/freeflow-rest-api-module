@@ -131,7 +131,7 @@ abstract class BaseContentController extends BaseController
         $contentRecord = Yii::createObject(['class' => $this->getContentActiveRecordClass()]);
 
         $contentRecord->content->container = $container;
-        $contentRecord->load(Yii::$app->request->getBodyParam('data', []), '');
+        $contentRecord->load(Yii::$app->request->getBodyParams(), '');
 
         if ($contentRecord->save()) {
             return $this->returnContentDefinition($contentRecord);
@@ -150,7 +150,7 @@ abstract class BaseContentController extends BaseController
             return $this->returnError(404, 'Request object not found!');
         }
 
-        if ($contentRecord->load(Yii::$app->request->getBodyParam('data', []), '') && $contentRecord->save()) {
+        if ($contentRecord->load(Yii::$app->request->getBodyParams(), '') && $contentRecord->save()) {
             return $this->returnContentDefinition($contentRecord);
         }
 
