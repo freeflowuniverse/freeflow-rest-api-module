@@ -47,7 +47,7 @@ class ContainerController extends BaseController
             return $this->returnError(404, 'Container not found!');
         }
 
-        return $this-> returnContentContainerDefinition(array($contentContainer -> id), null);
+        return $this-> returnContentContainerDefinition(array($contentContainer -> id), null)[0];
     }
 
     public function actionDelete($id){
