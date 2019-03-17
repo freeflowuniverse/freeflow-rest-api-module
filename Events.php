@@ -59,7 +59,9 @@ class Events
             // Like
             ['pattern' => 'api/v1/like/<id:\d+>', 'route' => 'rest/like/like/view', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/like/<id:\d+>', 'route' => 'rest/like/like/delete', 'verb' => 'DELETE'],
-            ['pattern' => 'api/v1/like/findByRecord', 'route' => 'rest/like/like/find-by-record', 'verb' => 'GET'],
+            ['pattern' => 'api/v1/like/', 'route' => 'rest/like/like/list', 'verb' => ['GET', 'HEAD']],
+            ['pattern' => 'api/v1/like/<model:[0-9a-zA-Z\-]+>/<id:\d+>', 'route' => 'rest/like/like/create', 'verb' => 'PUT'],
+
 
             // Post
             ['pattern' => 'api/v1/post/', 'route' => 'rest/post/post/find', 'verb' => ['GET', 'HEAD']],
