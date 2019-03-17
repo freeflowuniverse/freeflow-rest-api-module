@@ -48,7 +48,8 @@ class CommentDefinitions
             'message' => $comment->message,
             'createdBy' => UserDefinitions::getUserShort($comment->user),
             'createdAt' => $comment->created_at,
-            'likes' => LikeDefinitions::getLikesSummary($comment)
+            'likes' => LikeDefinitions::getLikesSummary($comment),
+            'content' => ContentDefinitions::getContentMetadata($comment->content)
         ];
     }
 
