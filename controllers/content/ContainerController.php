@@ -53,7 +53,7 @@ class ContainerController extends BaseController
     public function actionDelete($id){
         $class = $this -> getContentContainerActiveRecordClass();
 
-        $contentContainer = ContentContainer::findOne(['class' => $class, 'pk' => $id]);
+        $contentContainer = $class::findOne(['id' => $id]);
 
         if ($contentContainer == null){
             return $this->returnError(404, 'Container not found!');
