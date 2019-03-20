@@ -36,12 +36,23 @@
  
 ## Installation
 
+### Manual way
 1. Download module files and put it into: **/protected/modules/rest**
 2. Make sure module directory owned by Web user : `chmod -R www-data:www-data {humhub-Path}/protected/modules/rest`
 2. Enable module (Administration -> Modules -> Installed -> RESTful API Interface -> Enable)
 4. Configure module by one of these 2 ways:
     - set API Key (Administration -> Modules -> Installed ->  RESTful API Interface API -> Configure)
     - By simply click on `Humhub API` sub menu in the `Administrator` menu (Only visible when module is enabled)
+
+### Automatic way (command line)
+
+```bash
+cd {humhub-installation-dir}/protected
+cp -r humhub-modules-rest {humhub-installation-dir}/protected/modules/rest
+chown -R www-data:www-data modules/rest
+./yii module/enable rest 
+mysql -u root humhub -e "insert into api_user (client, api_key, active) values ('ss', 'J7R54o0ca7O2d4cgDBkwTWgX', 1)"
+```
 
 ## Documentation
 
