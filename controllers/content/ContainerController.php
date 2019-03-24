@@ -84,7 +84,7 @@ class ContainerController extends BaseController
             return $this->returnError(500, 'Internal error while add container!');
         }
 
-        return $this-> returnContentContainerDefinition(array($container -> id), null);
+        return $this-> returnContentContainerDefinition(array($container -> contentcontainer_id), null)[0];
     }
 
     public function actionUpdate($id){
@@ -114,7 +114,7 @@ class ContainerController extends BaseController
             return $this->returnError(500, 'Internal error while add container!');
         }
 
-        return $this-> returnContentContainerDefinition(array($container -> contentcontainer_id), null);
+        return $this-> returnContentContainerDefinition(array($container -> contentcontainer_id), null)[0];
     }
 
 }
