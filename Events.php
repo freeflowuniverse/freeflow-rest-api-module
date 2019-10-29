@@ -29,6 +29,7 @@ class Events
         Yii::$app->urlManager->addRules([
 
             // User: Default Controller
+            ['pattern' => 'api/v1/user/subscribe/<userId:\d+>/', 'route' => 'rest/user/user/subscribe', 'verb' => 'POST'],
             ['pattern' => 'api/v1/user/', 'route' => 'rest/user/user/index', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/user/<id:\d+>', 'route' => 'rest/user/user/view', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/user/<id:\d+>', 'route' => 'rest/user/user/update', 'verb' => ['PUT', 'PATCH']],
@@ -75,7 +76,6 @@ class Events
             ['pattern' => 'api/v1/file/download/<id:\d+>', 'route' => 'rest/file/file/download', 'verb' => ['GET', 'HEAD']],
 
             // Space
-            ['pattern' => 'api/v1/space/subscribe/<userId:\d+>/', 'route' => 'rest/space/space/subscribe', 'verb' => 'POST'],
             ['pattern' => 'api/v1/space/', 'route' => 'rest/space/space/list', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/space/<id:\d+>', 'route' => 'rest/space/space/delete', 'verb' => ['DELETE']],
             ['pattern' => 'api/v1/space/', 'route' => 'rest/space/space/create', 'verb' => 'POST'],
