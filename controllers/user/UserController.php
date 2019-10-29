@@ -14,7 +14,8 @@ use humhub\modules\user\models\Profile;
 use humhub\modules\user\models\User;
 use Yii;
 use yii\web\HttpException;
-
+use humhub\modules\space\models\Space;
+use humhub\modules\space\models\Membership;
 
 /**
  * Class AccountController
@@ -191,4 +192,39 @@ class UserController extends BaseController
 
         return $this->returnError(500, 'Internal error while soft delete user!');
     }
+    public function actionSubscribe($userId)
+    {
+
+        $user = User::findOne(['id' => $userId]);
+        if ($user === null) {
+            return $this->returnError(404, 'User not found!');
+        }
+        $spacesIds = Yii::$app->request->getBodyParam("spacesIds", []);
+        if (!empty($spacesIds)) {
+            foreach ($spacesIds as $spaceId){
+                $space = Space::findOne(['id' => $spaceId]);
+                if ($space === null) {
+                    return $this->returnError(404, 'Space not found!');
+                }
+            }
+            foreach ($spacesIds as $spaceId){
+                $membership = Membership::findOne(['space_id' => $spaceId, 'user_id' => $userId]);
+                if ($membership === null){
+                    $membership = new Membership();
+                    $membership -> space_id = $spaceId;
+                    $membership -> user_id = $userId;
+                    $membership -> status = Membership::STATUS_MEMBER;
+                    $membership -> validate();
+                    if (!$membership -> save()) {
+                        return $this -> returnError(500, 'Internal error while adding user to space!');
+                    }
+                }
+            }
+        }else{
+            return $this -> returnError(400, 'spacesIds is empty!');
+        }
+        return $this -> returnSuccess('User subscribed successfully!');
+
+    }
+
 }
