@@ -165,6 +165,88 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  '/user/username/{username}':
+    get:
+      tags:
+        - User
+      summary: Get user by user id
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The username of the user
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/User"
+        '400':
+          description: Invalid user username supplied
+        '404':
+          description: User not found
+
+  '/user/{id}/spaces':
+    get:
+      summary: Find all Spaces for the given user id
+      description: ''
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              total:
+                $ref: 'common.yaml#/components/properties/totalProperty'
+              page:
+                $ref: 'common.yaml#/components/properties/pageProperty'
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Space'
+  '/user/{id}/subscribe':
+    post:
+      summary: Subscribe user to many spaces
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: The spaces ids
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Space"
+        '400':
+          description: Invalid user id or spaces ids supplied
+        '404':
+          description: user or spaces not found
+
   '/user/full/{id}':
     delete:
       tags:
@@ -216,6 +298,40 @@ securityDefinitions:
 
 
 definitions:
+  Space:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+        example: 201
+      name:
+        type: string
+        example: "Some space name"
+      description:
+        type: string
+        example: "Some space description"
+      tags:
+        type: string
+        example: "tag1,tag2"
+      join_policy:
+        type: integer
+        format: int64
+        enum: [0,1]
+      visibility:
+        type: integer
+        format: int64
+        enum: [0,1]
+        example: 1
+      status:
+        type: integer
+        format: int64
+        example: 1
+        enum: [0,1]
+      schema:
+        type: object
+        $ref: "content.yaml#/definitions/Content"
   UserShort:
     description: a short representation of the user
     type: object

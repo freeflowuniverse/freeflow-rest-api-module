@@ -29,6 +29,8 @@ class Events
         Yii::$app->urlManager->addRules([
 
             // User: Default Controller
+            ['pattern' => 'api/v1/user/<id:\d+>/spaces', 'route' => 'rest/user/user/spaces', 'verb' => 'GET'],
+            ['pattern' => 'api/v1/user/username/<username:\w+>', 'route' => 'rest/user/user/view-by-username', 'verb' => 'GET'],
             ['pattern' => 'api/v1/user/subscribe/<userId:\d+>/', 'route' => 'rest/user/user/subscribe', 'verb' => 'POST'],
             ['pattern' => 'api/v1/user/', 'route' => 'rest/user/user/index', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/user/<id:\d+>', 'route' => 'rest/user/user/view', 'verb' => ['GET', 'HEAD']],

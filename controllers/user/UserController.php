@@ -7,15 +7,16 @@
 
 namespace humhub\modules\rest\controllers\user;
 
+use Yii;
+use yii\web\HttpException;
 use humhub\modules\rest\components\BaseController;
 use humhub\modules\rest\definitions\UserDefinitions;
 use humhub\modules\user\models\Password;
 use humhub\modules\user\models\Profile;
 use humhub\modules\user\models\User;
-use Yii;
-use yii\web\HttpException;
 use humhub\modules\space\models\Space;
 use humhub\modules\space\models\Membership;
+use humhub\modules\rest\definitions\SpaceDefinitions;
 
 /**
  * Class AccountController
@@ -176,6 +177,28 @@ class UserController extends BaseController
             return $this->returnSuccess('User successfully soft deleted!');
         }
         return $this->returnError(500, 'Internal error while soft delete user!');
+    }
+
+    public function actionViewByUsername($username)
+    {
+        $user = User::findOne(['username' => $username]);
+        if ($user === null) {
+            return $this->returnError(404, 'User not found!');
+        }
+        return UserDefinitions::getUser($user);
+    }
+
+    public function actionSpaces($id)
+    {
+        $result = [];
+
+        $query = Membership::find()
+            -> where(['user_id' => $id]);
+        foreach($query -> all() as $item){
+            $space = Space::findOne(["id" => $item -> space_id]);
+            $result[] =  SpaceDefinitions::getSpace($space);
+        }
+        return $result;
     }
 
 
