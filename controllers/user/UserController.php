@@ -56,6 +56,16 @@ class UserController extends BaseController
         return UserDefinitions::getUser($user);
     }
 
+    public function actionViewByEmail($email)
+    {
+        $user = User::findOne(['email' => $email]);
+        if ($user === null) {
+            return $this->returnError(404, 'User not found!');
+        }
+
+        return UserDefinitions::getUser($user);
+    }
+
     public function actionUpdate($id)
     {
         $user = User::findOne(['id' => $id]);

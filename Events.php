@@ -31,6 +31,7 @@ class Events
             // User: Default Controller
             ['pattern' => 'api/v1/user/<id:\d+>/spaces', 'route' => 'rest/user/user/spaces', 'verb' => 'GET'],
             ['pattern' => 'api/v1/user/username/<username:\w+>', 'route' => 'rest/user/user/view-by-username', 'verb' => 'GET'],
+            ['pattern' => 'api/v1/user/email/<email:[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}>', 'route' => 'rest/user/user/view-by-email', 'verb' => 'GET'],
             ['pattern' => 'api/v1/user/subscribe/<userId:\d+>/', 'route' => 'rest/user/user/subscribe', 'verb' => 'POST'],
             ['pattern' => 'api/v1/user/', 'route' => 'rest/user/user/index', 'verb' => ['GET', 'HEAD']],
             ['pattern' => 'api/v1/user/<id:\d+>', 'route' => 'rest/user/user/view', 'verb' => ['GET', 'HEAD']],
