@@ -79,6 +79,13 @@ class LikeController extends BaseController
     public function actionCreate($model, $id)
     {
         $object_model =  $this -> resolveModel($model);
+        
+        $record = $object_model::findOne(['id' => $id]);
+        
+        if ($record === null) {
+            return $this->returnError(404, 'ID not found!');
+        }
+        
         $like = Like::findOne(['object_model' => $object_model, 'object_id' => $id]);
         if ($like === null) {
             $like = new Like;
