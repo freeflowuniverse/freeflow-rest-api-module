@@ -147,34 +147,39 @@ class UserController extends BaseController
         $profile = new Profile();
         $profile->scenario = 'editAdmin';
         $profile->load(Yii::$app->request->getBodyParam("profile", []), '');
-        $profile->validate();
 
-        $password = new Password();
-        $password->scenario = 'registration';
-        $password->load(Yii::$app->request->getBodyParam("password", []), '');
-        $password->newPasswordConfirm = $password->newPassword;
-        $password->validate();
-
-        if ($user->hasErrors() || $password->hasErrors() || $profile->hasErrors()) {
-            return $this->returnError(400, 'Validation failed', [
-                'password' => $password->getErrors(),
-                'profile' => $profile->getErrors(),
+        if ($user->hasErrors()) {
+            return $this->returnError(412, 'Validation failed', [
                 'account' => $user->getErrors(),
             ]);
         }
 
-        if ($user->save()) {
-            $profile->user_id = $user->id;
-            $password->user_id = $user->id;
-            $password->setPassword($password->newPassword);
-            if ($profile->save() && $password->save()) {
-                return $this->actionView($user->id);
-            }
-        }
+         $user -> save();
+         $user = User::findOne(['email' => $user -> email]);
 
-        Yii::error('Could not create validated user.', 'api');
-        return $this->returnError(500, 'Internal error while save user!');
+
+         $contentContainer = new ContentContainer();
+         $contentContainer -> class = "humhub\\modules\\user\\models\\User";
+         $contentContainer -> pk = $user -> id;
+         $contentContainer -> owner_user_id = $user -> id;
+         $contentContainer -> save();
+
+         $groupuser = new GroupUser();
+         $groupuser -> user_id = $user -> id;
+         $groupuser -> group_id = 2; // users group
+         $groupuser -> save();
+
+         $newUSer = new Auth();
+         $newUSer -> source_id = $user -> username;
+         $newUSer -> source = '3bot';
+         $newUSer -> user_id = $user -> id;
+         $newUSer -> save();
+
+
+        return $this->actionView($user->id);
+
     }
+
 
     public function actionDelete($id)
     {
