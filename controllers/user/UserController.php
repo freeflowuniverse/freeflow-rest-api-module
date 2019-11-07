@@ -17,6 +17,9 @@ use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\space\models\Membership;
 use humhub\modules\rest\definitions\SpaceDefinitions;
+use humhub\modules\content\models\ContentContainer;
+use humhub\modules\user\models\Auth;
+use humhub\modules\user\models\GroupUser;
 
 /**
  * Class AccountController
